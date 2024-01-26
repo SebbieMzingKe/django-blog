@@ -55,3 +55,34 @@ def post_detail(request: Request, post_id: int):
     
     return Response(data = response, status=status.HTTP_404_NOT_FOUND)    
 
+# getting a post by id
+@api_view(http_method_names=["GET"])
+def get_post_by_id(request:Request, post_id:int):
+    pass
+
+
+#updating a post
+@api_view(http_method_names=["PUT"])
+def update_post(request:Request, post_id:int):
+    post = get_object_or_404(Post, pk = post_id)
+    
+    data = request.data
+
+    serializer = PostSerializer(instance=post, data = data)
+    if serializer.is_valid():
+        serializer.save()
+        response = {
+            "message":"post updated successfully",
+            "data":serializer.data
+        }
+
+        return Response(data = response, status = status.HTTP_200_OK)
+    return Response(data = serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# deleting a post
+@api_view(http_method_names=["DELETE"])
+def delete_post(request:Request, post_id:int):
+    post = get_object_or_404(Post, pk = post_id)
+    post.delete()
+    return Response(status = status.HTTP_204_NO_CONTENT)
