@@ -8,5 +8,6 @@ class PostSerializer(serializers.ModelSerializer):
         # {
         #     'id', 'title', 'content', 'created'
         #     }
+        
 
     
